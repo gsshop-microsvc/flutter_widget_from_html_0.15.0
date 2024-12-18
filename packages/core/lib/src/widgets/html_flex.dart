@@ -177,6 +177,9 @@ class HtmlFlex extends MultiChildRenderObjectWidget
     properties.add(EnumProperty<TextBaseline>('textBaseline', textBaseline,
         defaultValue: null));
   }
+
+  @override
+  double get spacing => throw UnimplementedError();
 }
 
 class _HtmlFlexRenderObject extends RenderBox
@@ -206,7 +209,8 @@ class _HtmlFlexRenderObject extends RenderBox
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
         _textBaseline = textBaseline,
-        _clipBehavior = clipBehavior {
+        _clipBehavior = clipBehavior,
+        spacing = 0 {
     addAll(children);
   }
 
@@ -1096,6 +1100,9 @@ class _HtmlFlexRenderObject extends RenderBox
     properties.add(EnumProperty<TextBaseline>('textBaseline', textBaseline,
         defaultValue: null));
   }
+
+  @override
+  double spacing;
 }
 
 class _LayoutSizes {
