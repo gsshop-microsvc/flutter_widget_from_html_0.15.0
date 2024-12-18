@@ -82,6 +82,7 @@ class HtmlFlex extends MultiChildRenderObjectWidget
     this.verticalDirection = VerticalDirection.down,
     this.textBaseline, // NO DEFAULT: we don't know what the text's baseline should be
     this.clipBehavior = Clip.none,
+    this.spacing = 0,
     super.children,
   }) : assert(
             !identical(crossAxisAlignment, CrossAxisAlignment.baseline) ||
@@ -112,6 +113,9 @@ class HtmlFlex extends MultiChildRenderObjectWidget
 
   @override
   final Clip clipBehavior;
+
+  @override
+  final double spacing;
 
   bool get _needTextDirection {
     switch (direction) {
@@ -177,9 +181,6 @@ class HtmlFlex extends MultiChildRenderObjectWidget
     properties.add(EnumProperty<TextBaseline>('textBaseline', textBaseline,
         defaultValue: null));
   }
-
-  @override
-  double get spacing => throw UnimplementedError();
 }
 
 class _HtmlFlexRenderObject extends RenderBox
