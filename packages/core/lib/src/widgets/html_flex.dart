@@ -82,7 +82,7 @@ class HtmlFlex extends MultiChildRenderObjectWidget
     this.verticalDirection = VerticalDirection.down,
     this.textBaseline, // NO DEFAULT: we don't know what the text's baseline should be
     this.clipBehavior = Clip.none,
-    this.spacing = 0,
+    this.spacing = 0.0,
     super.children,
   }) : assert(
             !identical(crossAxisAlignment, CrossAxisAlignment.baseline) ||
@@ -193,17 +193,18 @@ class _HtmlFlexRenderObject extends RenderBox
   ///
   /// By default, the flex layout is horizontal and children are aligned to the
   /// start of the main axis and the center of the cross axis.
-  _HtmlFlexRenderObject({
-    List<RenderBox>? children,
-    Axis direction = Axis.horizontal,
-    MainAxisSize mainAxisSize = MainAxisSize.max,
-    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-    TextDirection? textDirection,
-    VerticalDirection verticalDirection = VerticalDirection.down,
-    TextBaseline? textBaseline,
-    Clip clipBehavior = Clip.none,
-  })  : _direction = direction,
+  _HtmlFlexRenderObject(
+      {List<RenderBox>? children,
+      Axis direction = Axis.horizontal,
+      MainAxisSize mainAxisSize = MainAxisSize.max,
+      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+      CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+      TextDirection? textDirection,
+      VerticalDirection verticalDirection = VerticalDirection.down,
+      TextBaseline? textBaseline,
+      Clip clipBehavior = Clip.none,
+      double spacing = 0.0})
+      : _direction = direction,
         _mainAxisAlignment = mainAxisAlignment,
         _mainAxisSize = mainAxisSize,
         _crossAxisAlignment = crossAxisAlignment,
@@ -211,8 +212,19 @@ class _HtmlFlexRenderObject extends RenderBox
         _verticalDirection = verticalDirection,
         _textBaseline = textBaseline,
         _clipBehavior = clipBehavior,
-        spacing = 0 {
+        _spacing = spacing {
     addAll(children);
+  }
+
+  @override
+  double get spacing => _spacing;
+  double _spacing;
+  @override
+  set spacing(double value) {
+    if (_spacing != value) {
+      _spacing = value;
+      markNeedsLayout();
+    }
   }
 
   @override
@@ -1101,9 +1113,6 @@ class _HtmlFlexRenderObject extends RenderBox
     properties.add(EnumProperty<TextBaseline>('textBaseline', textBaseline,
         defaultValue: null));
   }
-
-  @override
-  double spacing;
 }
 
 class _LayoutSizes {
